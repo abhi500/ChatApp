@@ -1,12 +1,14 @@
 <template>
-    <div class="signin__container signin--size">
+    <div class="signup__container signup--size">
         <div class="left__container left__container--theme left__container--size"></div>
         <div class="right__container right__container--theme right__container--size">
             <div class="top top--size">
                 <h3 class="title">Welcome Back</h3>
-                <h1 class="subtitle">Signin to your account</h1>
+                <h1 class="subtitle">Signup to your account</h1>
             </div>
             <div class="form">
+                <label for="name">Name</label>
+                <input type="name" placeholder="Username" class="form__name form__name--size">
                 <label for="email">Email</label>
                 <input type="email" placeholder="Email" class="form__email form__email--size">
                 <label for="password">Password</label>
@@ -21,18 +23,38 @@
                 <login-button></login-button>
                 <google-button></google-button>
                 <facebook-button></facebook-button>
-                <p class="label">Don't have an accout? <router-link to="/signup" class="signup__link">Signup now</router-link></p>
-                
+                <p class="label">Don't have an accout? <router-link to="/signin" class="signin__link">Signin now</router-link></p>
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    console.log
 
-import GoogleButton from './buttons/GoogleButton.vue';
-import FacebookButton from './buttons/FacebookButton.vue';
-import LoginButton from './buttons/LoginButton.vue';
+ 
+
+    FB.login(function(response) {
+        if (response.authResponse) {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+        console.log('Good to see you, ' + response.name + '.');
+        });
+        } else {
+        console.log('User cancelled login or did not fully authorize.');
+        }
+    });
+  };
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+
+<script>
+
+import GoogleButton from '../components/buttons/GoogleButton.vue';
+import FacebookButton from '../components/buttons/FacebookButton.vue';
+import LoginButton from '../components/buttons/LoginButton.vue';
 
 export default {
     components : {
@@ -40,17 +62,12 @@ export default {
         'facebook-button': FacebookButton,
         'login-button': LoginButton
     },
-
-    created() {
-        console.log(this.$router)
-    },
-    
 }
 </script>
 
 <style lang="scss" scoped>
 
-.signin__container{
+.signup__container{
     display: flex;
     flex-wrap: wrap;
     overflow-y: scroll;
@@ -70,7 +87,7 @@ export default {
     }
 
     &--size{
-        height: auto;
+        height: 100vh;
     }
 }   
 
@@ -114,6 +131,15 @@ export default {
     display: flex;
     flex-direction: column;
 
+    &__name{
+        margin-bottom: 20px;
+
+        &--size{
+            width: 400px;
+            height: 50px;
+        }
+    }
+
     &__email{
         margin-bottom: 20px;
 
@@ -150,7 +176,7 @@ export default {
     align-self: center;
 }
 
-.signup__link{
+.signin__link{
     align-self: flex-end;
     text-decoration: none;
     color: #453D78;

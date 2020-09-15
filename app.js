@@ -4,6 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+
+const config = require('./webpack.config.js');
+const compiler = webpack(config);
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -18,7 +25,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'dist')));
+// app.use(express.static(path.join(__dirname, 'dist')));
+
+// Tell express to use the webpack-dev-middleware and use the webpack.config.js
+// configuration file as a base.
+// app.use(webpackDevMiddleware(compiler, {
+//   publicPath: config.output.publicPath,
+// }));
 
 app.use('/api/v1/users', usersRouter);
 app.use('*', indexRouter);

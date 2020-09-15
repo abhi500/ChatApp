@@ -6,9 +6,7 @@
 
 <script>
 export default {
-    created() {
-        console.log(this.router)
-    },
+
 }
 </script>
 

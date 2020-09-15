@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import SignUp from './src/components/Auth/Signup.vue'
-import SignIn from './src/components/Auth/Signin.vue'
-import PageNotFound from './src/components/errors/PageNotFound.vue';
+import SignUp from './src/pages/SignupPage.vue'
+import SignIn from './src/pages/SigninPage.vue'
+import PageNotFound from './src/pages/PageNotFound.vue';
+import Home from './src/pages/HomePage.vue';
 
 Vue.use(VueRouter);
 
@@ -12,7 +13,17 @@ export default new VueRouter({
         {
             name: 'Home',
             path: '/',
-            redirect: '/signin'
+            component: Home,
+            beforeRouteEnter (to, from, next) {
+                let user = localStorage.getItem('user');
+                console.log(user)
+                // if(user)
+                //     // next();
+                // else
+                    this.$router.push({
+                        name: 'Signin'
+                    })    
+            }
         },
         {
             name: 'Signup',
@@ -28,6 +39,6 @@ export default new VueRouter({
             name: 'Page Not found',
             path: '*',
             component: PageNotFound
-        }
+        },
     ]
 })

@@ -1,19 +1,25 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const path = require('path');
 
 module.exports = {
   entry: './src/main.js',
   mode: 'development',
-  // devServer: {
-  //   index: index.html
-  // } ,
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+  },
+  devServer: {
+    historyApiFallback: true,
+  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[id].css'
     }),
-    new HtmlWebpackPlugin({  // Also generate a test.html
+    new HtmlWebpackPlugin({
         filename: 'index.html',
         template: 'public/index.html'
     }),
@@ -21,13 +27,6 @@ module.exports = {
   ],
   module: {
     rules: [
-      {
-        test: /\.(png|jpe?g|gif)$/i,
-        loader: 'file-loader',
-        options: {
-          outputPath: 'images',
-        },
-      },
       {
         test: /\.css$/i,
         use: ['style-loader', {
