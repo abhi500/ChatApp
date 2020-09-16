@@ -1,7 +1,7 @@
 <template>
     <div class="container container--size">
         <div class="container__left container__left--theme">
-sdfsdf
+            <user-data></user-data>
         </div>
         <div class="container__right container__right--theme">
             <chat-section></chat-section>
@@ -12,10 +12,12 @@ sdfsdf
 <script>
 
 import ChatSection from '../layouts/ChatSection.vue';
+import UserData from '../layouts/UserData.vue'
 
 export default {
     components: {
-        'chat-section': ChatSection
+        'chat-section': ChatSection,
+        'user-data': UserData
     }
     
 }
@@ -32,7 +34,7 @@ export default {
     }
 
     &__left{
-        flex: 2;
+        flex: 3;
 
         &--theme{
             background-color: white;
@@ -40,12 +42,13 @@ export default {
     }
 
     &__right{
-        flex: 3;
+        flex: 6;
 
         &--theme{
             background-color: lighten($color: #E8EAF6, $amount: 3%);
         }
     }
 }
+
 
 </style>

@@ -21,11 +21,13 @@
         </nav>
         <ul class="chat-section__chats chat-section__chats--size">
             <li v-for="message in messages" :key="message.id" class="chat-section__chat chat-section__chat--theme">
-                <div v-if="message.id % 2 == 1" class="received-message received-message--size">
-                    {{  message.message }}
+                <div v-if="message.id % 2 == 1" class="received-message received-message--theme">
+                    <p>{{message.message}}</p>
+                    <span class="time">5:00 AM</span>
                 </div>
-                <div v-else class="sended-message sended-message--size">
-                    {{ message.message }}
+                <div v-else class="sended-message received-message--theme">
+                    <p>{{message.message}}</p>
+                    <span class="time">5:00 AM</span>
                 </div>
             </li>
         </ul>
@@ -61,7 +63,7 @@ export default {
                 },
                 {
                     id: 2,
-                    message: 'Abhisheksdf asdf asdfsad f'
+                    message: 'Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df  Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df'
                 },
                 {
                     id: 3,
@@ -86,7 +88,19 @@ export default {
                 {
                     id: 8,
                     message: 'Abhisheksdf asdf asdfsad f'
-                }
+                },
+                {
+                    id: 9,
+                    message: 'Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df  Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df'
+                },
+                {
+                    id: 10,
+                    message: 'Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df  Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df'
+                },
+                {
+                    id: 11,
+                    message: 'Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df  Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df'
+                },
             ]
 		};
 	},
@@ -100,6 +114,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: scroll;;
 
     &--size{
         height: 100vh;
@@ -110,10 +125,12 @@ export default {
         display: flex;
         align-items: center;
         padding: 0 20px;
-        flex: 70px;
+        flex: 60px;
+        position: sticky;
+        top: 0;
 
         &--size{
-            height: 70px;
+            min-height: 60px;
             width: 100%;
         }
 
@@ -126,25 +143,18 @@ export default {
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        flex: 100%;
+        flex: auto;
         list-style: none;
+        padding: 0 20px 120px 20px;
 
         &--size{
             width: 100%;
         }
     }
 
-    &__chat{
-        margin: 10px;
-
-        &--theme{
-            background-color: white;
-        }
-    }
-
     &__message-box{
-        flex: 70px;
-        position: sticky;
+        flex: auto;
+        position: fixed;
         bottom: 30px;
     }
 }
@@ -164,20 +174,16 @@ export default {
 .user{
     margin-left: 10px;
 
-    // &__name{
-
-    // }
-
     &__email{
         font-size: 12px;
     }
 
     &__image{
-        border-radius: 15px;
+        border-radius: 40px;
 
         &--size{
-            height: 30px;
-            width: 30px;
+            height: 40px;
+            width: 40px;
         }
     }
 }
@@ -187,6 +193,7 @@ export default {
     cursor: pointer;
     margin-right: 10px;
     border-radius: 10px;
+
     
     &--size{
         height: 40px;
@@ -204,18 +211,39 @@ export default {
 }
 
 .received-message{
-    
-    &--size{
-        height: 100px;
+    display: inline-block;
+    border-radius: 0 0 0 15px;
+    padding: 10px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 20px 0px lightgrey;
+
+     &--theme{
+        background-color: white;
     }
 }
 
 .sended-message{
+    display: block;
     float: right;
+    padding: 10px;
+    border-radius: 0 0 15px 0;
+    margin-top: 20px;
+    box-shadow: 0px 5px 20px 0px lightgrey;
 
-    &--size{
-        height: 100px;
+     &--theme{
+        background-color: white;
     }
+}
+
+.time{
+    margin-top: 10px;
+    float: right;
+    font-size: 10px;
+}
+
+p{
+    word-break: break-all;
+    white-space: normal;
 }
 
 </style>

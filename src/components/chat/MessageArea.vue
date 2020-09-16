@@ -33,7 +33,7 @@ export default {
     box-shadow: 0px 0px 10px 0px lightgray;
 
     &--size{
-        height: 70px;
+        height: 60px;
         width: 50vw;
     }
 
@@ -57,7 +57,7 @@ export default {
 
         &--size{
             width: 80px;
-            height: 70px;
+            height: 60px;
         }
     }
 }
