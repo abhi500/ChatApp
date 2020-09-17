@@ -1,9 +1,9 @@
 <template>
     <div class="container container--size">
-        <div class="container__left container__left--theme">
+        <div class="container__left container__left--theme container__left--size">
             <user-data></user-data>
         </div>
-        <div class="container__right container__right--theme">
+        <div class="container__right container__right--theme container__right--size">
             <chat-section></chat-section>
         </div>
     </div>
@@ -34,18 +34,26 @@ export default {
     }
 
     &__left{
-        flex: 3;
+        // flex: 3;
 
         &--theme{
             background-color: white;
         }
+
+        &--size{
+            min-width: 30%;
+        }
     }
 
     &__right{
-        flex: 6;
+        // flex: 6;
 
         &--theme{
             background-color: lighten($color: #E8EAF6, $amount: 3%);
+        }
+
+        &--size{
+            min-width: 70%;
         }
     }
 }

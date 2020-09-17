@@ -17,27 +17,50 @@
         <div class="section-top">
             <h4 class="title">Recent</h4>
             <div class="move">
-
+                
             </div>
+        </div>
+        <ul class="recent-chats">
+            <li class="recent-chat" v-for="(data, index) in 5" :key="index">
+                <recent-chat></recent-chat>
+            </li> 
+        </ul>
+
+        <ul class="options">
+            <li class="option">Contacts</li>
+            <li class="option">Groups</li>
+        </ul>
+        <div class="contacts" v-if="active">
+            <contacts></contacts>
+        </div>
+        <div class="groups" v-else>
+            <groups></groups>
         </div>
     </div>
 </template>
 
 <script>
 
+import Contacts from '../components/chat/Contacts.vue';
+import Groups from '../components/chat/Groups.vue';
+import RecentChat from '../components/chat/RecentChat.vue';
 import IconifyIcon from '@iconify/vue';
-import notificationOutlineBadged from '@iconify/icons-clarity/notification-outline-badged';
+import notificationOutlineBadged from '@iconify/icons-clarity/notification-outline-badged';;
 
 export default {
     components: {
 		IconifyIcon,
+        'recent-chat': RecentChat,
+        'contacts': Contacts,
+        'groups': Groups
 	},
     data() {
         return {
             image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png",
             icons: {
-				notificationOutlineBadged,
-			},
+                notificationOutlineBadged,
+            },
+            active: true
         }
     },
 }
@@ -48,12 +71,12 @@ export default {
 .container{
     display: flex;
     flex-direction: column;
+    padding: 30px;
 }
 
 .navbar{
     display: flex;
     align-items: center;
-    padding: 0 20px;
     flex: 60px;
     position: sticky;
     top: 0;
@@ -102,5 +125,37 @@ export default {
     font-size: 18px;
     cursor: pointer;
 }
+
+.recent{
+
+    &-chats{
+        display: flex;
+        list-style: none;
+        width: 100%;
+        padding-bottom: 10px;
+        padding-left: 10px;
+        overflow-y: scroll;
+        
+    }
+
+    &-chat{
+       padding-right: 10px;
+    }
+}
+
+.options{
+    margin-top: 20px;
+    display: flex;
+    list-style: none;
+    // justify-content: space-evenly;
+}
+
+.option{
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 50px;
+}
+
 
 </style>
