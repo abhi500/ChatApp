@@ -42,6 +42,8 @@ export default {
 
         &--size{
             min-width: 30%;
+            height: 100vh;
+            overflow: hidden;
         }
     }
 
@@ -54,6 +56,7 @@ export default {
 
         &--size{
             min-width: 70%;
+            height: 100vh;
         }
     }
 }

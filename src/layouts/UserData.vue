@@ -27,8 +27,8 @@
         </ul>
 
         <ul class="options">
-            <li class="option">Contacts</li>
-            <li class="option">Groups</li>
+            <li class="option" @click="switchOption($event, 0)">Contacts</li>
+            <li class="option" @click="switchOption($event, 1)">Groups</li>
         </ul>
         <div class="contacts" v-if="active">
             <contacts></contacts>
@@ -60,8 +60,34 @@ export default {
             icons: {
                 notificationOutlineBadged,
             },
-            active: true
+            active: true,
+            previousSelectedOption : Element
         }
+    },
+
+    methods: {
+        switchOption(event, val){
+            // selected element
+            let option = event.target;
+            if(this.previousSelectedOption)
+                this.previousSelectedOption.style.color = '#000';
+            
+            //change selected element color
+            option.style.color = '#C4C4C4';
+            
+            //set current element as previousSelectedOption
+            this.previousSelectedOption = option
+
+            if(val == 0)
+                this.active = true;
+            else
+                this.active = false;   
+        }
+    },
+
+    mounted() {
+        //set current selected option as previousSelectedOption
+        this.previousSelectedOption = document.getElementsByClassName('option')[0]
     },
 }
 </script>
@@ -155,6 +181,18 @@ export default {
     font-weight: bold;
     font-size: 18px;
     margin-right: 50px;
+
+    &:first-child{
+        color: #C4C4C4;
+    }
+}
+
+.contacts{
+    overflow-y: scroll;
+}
+
+.groups{
+    overflow: scroll;
 }
 
 

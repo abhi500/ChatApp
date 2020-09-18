@@ -13,10 +13,7 @@
 .card{
     display: flex;
     flex-direction: column;
-    // align-items: center;
     cursor: pointer;
-    // position: absolute;
-    // top: 10px;
 
     &__image{
         border-radius: 25px;
