@@ -1,5 +1,8 @@
 <template>
     <div class="container container--size">
+        <span v-if="message">
+            {{ message }}
+        </span>
         <div class="container__left container__left--theme container__left--size">
             <user-data></user-data>
         </div>
@@ -13,12 +16,53 @@
 
 import ChatSection from '../layouts/ChatSection.vue';
 import UserData from '../layouts/UserData.vue'
+import io from 'socket.io-client';
 
 export default {
     components: {
         'chat-section': ChatSection,
         'user-data': UserData
-    }
+    },
+
+    data() {
+        return {
+            message: null
+        }
+    },
+
+    created() {
+        const socket = io({
+            reconnection: true,
+            reconnectionAttemps: Infinity,
+            reconnectionDelay: 1000,
+            reconnectionDelayMax: 5000,
+            randomizationFactor: 0.5
+        },'http://localhost:8080/');
+
+        socket.on('connect', () => {
+            socket.emit('user-id', {
+                time: Date.now()}
+            )
+            console.log('connect')
+            this.message = 'connected';
+        })
+
+        socket.on('connect_error', () => {
+            this.message = 'connect error'
+            console.log('connect__error')
+            setTimeout(() => {
+                socket.connect();
+            }, 2000);
+        });
+
+        socket.on('disconnect', () => {
+            console.log('disconnect')
+            console.log('disconnect')
+            setTimeout(() => {
+                socket.connect();
+            }, 500);
+        });
+    },
     
 }
 </script>
