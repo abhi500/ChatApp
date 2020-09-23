@@ -6,14 +6,6 @@ const path = require('path');
 module.exports = {
   entry: './src/main.js',
   mode: 'development',
-  // output: {
-  //   filename: '[name].bundle.js',
-  //   path: path.resolve(__dirname, 'dist'),
-  //   publicPath: '/',
-  // },
-  devServer: {
-    historyApiFallback: true,
-  },
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -37,8 +29,16 @@ module.exports = {
         }, 'css-loader'],
       },
       {
-        test: /\.m?js$/,
-        exclude: /(node_modules|bower_components|routes)/,
+        test: /\.js$/,
+        exclude: [
+          './lib/',
+          './node_modules/',
+          './app.js',
+          './webpack.config.js',
+          './migrations/',
+          './models/',
+          './routes/'
+        ],
         use: {
           loader: 'babel-loader',
           options: {
@@ -49,7 +49,7 @@ module.exports = {
       {
         test: /\.s[ac]ss$/i,
         use: [
-          // Creates `style` nodes from JS strings
+          // Creates `style` nodes from JS stringss
           'style-loader',
           // Translates CSS into CommonJS
           'css-loader',
@@ -67,5 +67,11 @@ module.exports = {
       },
     ],
   },
-  
+  devServer: {
+    historyApiFallback: true,
+  },
+  output: {
+    filename: 'main.js',
+    path: path.resolve(__dirname, 'dist')
+  }, 
 };

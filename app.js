@@ -6,13 +6,9 @@ var logger = require('morgan');
 var cors = require('cors')
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var authRouter = require('./routes/users');
 
 var app = express();
-
-// // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
 
 app.use(cors()) 
 app.use(logger('dev'));
@@ -22,14 +18,8 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Tell express to use the webpack-dev-middleware and use the webpack.config.js
-// configuration file as a base.
-// app.use(webpackDevMiddleware(compiler, {
-//   publicPath: config.output.publicPath,
-// }));
-
-app.use('/api/v1/chats', usersRouter);
-app.use('*', indexRouter);
+app.use('/api/v1/auth', authRouter);
+// app.use('*', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -46,7 +36,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({
     status: false,
-    message: 'Route not found'
+    message: res.locals.message
+    // message: 'Route not found'
   })
   // res.render('error');
 });

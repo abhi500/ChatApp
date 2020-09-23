@@ -1,7 +1,10 @@
 <template>
     <div class="message-area message-area--size">
-        <input type="text" placeholder="Write message ..." class="message-area__input message-area__input--size">
-        <button class="message-area__send message-area__send--size message-area__send--theme">
+        <input type="text" 
+            placeholder="Write message ..." 
+            class="message-area__input message-area__input--size" 
+            v-model="message">
+        <button class="message-area__send message-area__send--size message-area__send--theme" @click="send">
             <IconifyIcon :icon="icons.addIcon" class="icon"/>
         </button>
     </div>
@@ -11,6 +14,7 @@
 
 import IconifyIcon from '@iconify/vue';
 import addIcon from '@iconify/icons-codicon/add';
+import { EventBus } from '../../../event-bus.js';
 
 export default {
     components: {
@@ -20,9 +24,16 @@ export default {
 		return {
 			icons: {
 				addIcon,
-			},
+            },
+            message: null
 		};
-	},
+    },
+
+    methods: {
+        send(){
+            EventBus.$emit('message', this.message)
+        }
+    },
 }
 </script>
 

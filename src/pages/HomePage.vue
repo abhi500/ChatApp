@@ -17,6 +17,7 @@
 import ChatSection from '../layouts/ChatSection.vue';
 import UserData from '../layouts/UserData.vue'
 import io from 'socket.io-client';
+import { EventBus } from '../../event-bus.js';
 
 export default {
     components: {
@@ -31,6 +32,7 @@ export default {
     },
 
     created() {
+
         const socket = io({
             reconnection: true,
             reconnectionAttemps: Infinity,
@@ -62,6 +64,11 @@ export default {
                 socket.connect();
             }, 500);
         });
+
+        EventBus.$on('message', (message) => {
+            socket.emit('chat', {name: message, email: message, password: message})
+            console.log(message)
+        })
     },
     
 }
