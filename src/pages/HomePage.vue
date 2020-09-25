@@ -33,42 +33,42 @@ export default {
 
     created() {
 
-        const socket = io({
-            reconnection: true,
-            reconnectionAttemps: Infinity,
-            reconnectionDelay: 1000,
-            reconnectionDelayMax: 5000,
-            randomizationFactor: 0.5
-        },'http://localhost:8080/');
+        // const socket = io({
+        //     reconnection: true,
+        //     reconnectionAttemps: Infinity,
+        //     reconnectionDelay: 1000,
+        //     reconnectionDelayMax: 5000,
+        //     randomizationFactor: 0.5
+        // },'http://localhost:3000/');
 
-        socket.on('connect', () => {
-            socket.emit('user-id', {
-                time: Date.now()}
-            )
-            console.log('connect')
-            this.message = 'connected';
-        })
+        // socket.on('connect', () => {
+        //     socket.emit('user-id', {
+        //         time: Date.now()}
+        //     )
+        //     console.log('connect')
+        //     this.message = 'connected';
+        // })
 
-        socket.on('connect_error', () => {
-            this.message = 'connect error'
-            console.log('connect__error')
-            setTimeout(() => {
-                socket.connect();
-            }, 2000);
-        });
+        // socket.on('connect_error', () => {
+        //     this.message = 'connect error'
+        //     console.log('connect__error')
+        //     setTimeout(() => {
+        //         socket.connect();
+        //     }, 2000);
+        // });
 
-        socket.on('disconnect', () => {
-            console.log('disconnect')
-            console.log('disconnect')
-            setTimeout(() => {
-                socket.connect();
-            }, 500);
-        });
+        // socket.on('disconnect', () => {
+        //     console.log('disconnect')
+        //     console.log('disconnect')
+        //     setTimeout(() => {
+        //         socket.connect();
+        //     }, 500);
+        // });
 
-        EventBus.$on('message', (message) => {
-            socket.emit('chat', {name: message, email: message, password: message})
-            console.log(message)
-        })
+        // EventBus.$on('message', (message) => {
+        //     socket.emit('chat', {name: message, email: message, password: message})
+        //     console.log(message)
+        // })
     },
     
 }

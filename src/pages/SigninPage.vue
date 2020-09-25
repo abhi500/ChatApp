@@ -8,9 +8,15 @@
             </div>
             <div class="form">
                 <label for="email">Email</label>
-                <input type="email" placeholder="Email" class="form__email form__email--size">
+                <input type="email" 
+                    placeholder="Email" 
+                    class="form__email form__email--size" 
+                    v-model="user.email">
                 <label for="password">Password</label>
-                <input type="password" placeholder="Password" class="form__password form__password--size">
+                <input type="password" 
+                    placeholder="Password" 
+                    class="form__password form__password--size" 
+                    v-model="user.password">
 
                  <div class="form__flex">
                     <input type="radio" id="remember" name="rememberme">
@@ -18,10 +24,12 @@
                     <a href="#" class="forget-password">Forget Password?</a>
                 </div>
 
-                <login-button></login-button>
+                <login-button :user=user></login-button>
                 <google-button></google-button>
                 <facebook-button></facebook-button>
-                <p class="label">Don't have an accout? <router-link to="/signup" class="signup__link">Signup now</router-link></p>
+                <p class="label">Don't have an accout? 
+                    <router-link to="/signup" 
+                    class="signup__link">Signup now</router-link></p>
                 
             </div>
         </div>
@@ -35,6 +43,14 @@ import FacebookButton from '../components/buttons/FacebookButton.vue';
 import LoginButton from '../components/buttons/LoginButton.vue';
 
 export default {
+    data() {
+        return {
+            user: {
+                email: 'abhikam1511215%40gmail.com',
+                password: '122344'
+            }
+        }
+    },
     components : {
         'google-button': GoogleButton,
         'facebook-button': FacebookButton,

@@ -24,7 +24,8 @@ var server = http.createServer(app);
 /**
  * create socket connection
  */
-var io = require('socket.io')(server);
+// var io = require('socket.io')(server);
+
 
 require('../db/mongodb-connection');
 

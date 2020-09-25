@@ -31,13 +31,14 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: [
-          './lib/',
-          './node_modules/',
-          './app.js',
-          './webpack.config.js',
-          './migrations/',
-          './models/',
-          './routes/'
+          '/lib/',
+          '/node_modules/',
+          '/app.js',
+          '/webpack.config.js',
+          '/migrations/',
+          '/models/',
+          '/routes/',
+          '/utils'
         ],
         use: {
           loader: 'babel-loader',

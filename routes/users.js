@@ -1,5 +1,5 @@
 var express = require('express');
-var router = express.Router();
+var router = express();
 var User = require('../models/user');
 var { generateHash, checkPassword } = require('../utils/secure-password');
 var { token } = require('../utils/token-generator');
@@ -7,7 +7,7 @@ var { error, success } = require('../utils/response');
 var { login } = require('../middlewares/auth-middleware');
 
 //register user
-router.get('/register', (req, res, next) => {
+router.post('/register', (req, res, next) => {
     
     let { name, email, password } = req.query;
 
@@ -40,19 +40,28 @@ router.get('/register', (req, res, next) => {
     })
 });
 
+const callback = () => {
+    return (req, res, next) => {
+        res.json(1)
+    }
+}
+
 //login user
-router.get('/login', login(req.query, res, next), (req, res, next) => {
+router.post('/login', login(), (req, res) => {
     
     let { email, password } = req.query;
 
     User.findOne({ email: email }, (err, user ) => {
-        if(err)
+        if(!user){
             error(res, 'User not registed')
+            // return;
+        }
         else{
             checkPassword(password, user.password, (status) => {
                 if(!status){
                     //error response
                     error(res, 'Check your password')
+                    // return;
                 }
                 else{
                     const data = {
@@ -62,6 +71,7 @@ router.get('/login', login(req.query, res, next), (req, res, next) => {
                     }
                     //response
                     success(res, 'User logged in', { token: token(data), user: data });
+                    // return;
                 }
             })
         }

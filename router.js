@@ -14,9 +14,9 @@ export default new VueRouter({
             name: 'Home',
             path: '/',
             component: Home,
-            beforeRouteEnter (to, from, next) {
-                let user = localStorage.getItem('user');
-                console.log(user)
+            beforeRouteUpdate (to, from, next) {
+                let user = localStorage.getItem('token');
+                console.log(1)
                 // if(user)
                 //     // next();
                 // else

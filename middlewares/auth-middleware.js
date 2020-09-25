@@ -1,32 +1,29 @@
-module.exports.login = ({ email, password }, res, next) => {
-    
+var { error } = require('../utils/response');
 
-    if(!email || !email.includes('@gmail.com')){
-        var errors = {};
-        if(!email)
-            errors['email'] = 'Enter your email';
-        else
-            errors['email'] = 'Email must contains @gmail.com';
+module.exports.login = () => {
+    return (req, res, next) => {
 
-        if(errors)
-            res.json({
-                errors: errors
-            })
+        const { email, password } = req.query;
+        const errors = [];
 
+        if(!email || !email.includes('@gmail.com')){
+            if(!email)
+                errors.push({'email': 'Enter your email'});
+            else
+                errors.push({'email': 'Email must contains @gmail.com'});
+        }
+
+        if(!password || password.length < 6){
+            if(!password)
+                errors.push({'password': 'Enter your password'});
+            else
+                errors.push({'password': 'Password should be more than 5 characters'});
+        }
+
+        if(errors.length){
+            error(res, 'Check your details', errors)
+        }
+        else 
+            next();
     }
-    else if(!password || password.length < 6){
-        var errors = {};
-
-        if(!password)
-            errors['password'] = 'Enter your password';
-        else
-            errors['password'] = 'Password should be more than 5 characters';
-        
-        if(errors)
-            res.json({
-                errors: errors
-            })
-    }
-    else 
-        next();
 }
