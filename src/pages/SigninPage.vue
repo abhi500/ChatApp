@@ -3,20 +3,24 @@
         <div class="left__container left__container--theme left__container--size"></div>
         <div class="right__container right__container--theme right__container--size">
             <div class="top top--size">
-                <h3 class="title">Welcome Back</h3>
+                <h3 class="title">Welcome</h3>
                 <h1 class="subtitle">Signin to your account</h1>
             </div>
             <div class="form">
-                <label for="email">Email</label>
-                <input type="email" 
-                    placeholder="Email" 
+                <label for="email" class="label">Email</label>
+                <input
+                    placeholder="Email"
                     class="form__email form__email--size" 
-                    v-model="user.email">
-                <label for="password">Password</label>
+                    v-model="userInfo.email"
+                   >
+                <input-error v-if="error.email" v-bind:message="error.email"></input-error>
+
+                <label for="password" class="label">Password</label>
                 <input type="password" 
                     placeholder="Password" 
                     class="form__password form__password--size" 
-                    v-model="user.password">
+                    v-model="userInfo.password">
+                <input-error v-if="error.password" v-bind:message="error.password"></input-error>
 
                  <div class="form__flex">
                     <input type="radio" id="remember" name="rememberme">
@@ -24,13 +28,12 @@
                     <a href="#" class="forget-password">Forget Password?</a>
                 </div>
 
-                <login-button :user=user></login-button>
+                <login-button :user=userInfo></login-button>
                 <google-button></google-button>
                 <facebook-button></facebook-button>
                 <p class="label">Don't have an accout? 
                     <router-link to="/signup" 
                     class="signup__link">Signup now</router-link></p>
-                
             </div>
         </div>
     </div>
@@ -41,21 +44,63 @@
 import GoogleButton from '../components/buttons/GoogleButton.vue';
 import FacebookButton from '../components/buttons/FacebookButton.vue';
 import LoginButton from '../components/buttons/LoginButton.vue';
+import InputError from '../components/errors/InputError.vue';
+import { mapGetters, mapState } from 'vuex';
+import PopUpMessage from '../components/errors/PopupMessage.vue';
+import Vue from 'vue';
 
 export default {
     data() {
         return {
-            user: {
-                email: 'abhikam1511215%40gmail.com',
-                password: '122344'
+            userInfo: {
+                email: null,
+                password: null
+            },
+            error: {
+                message: null,
+                email: null,
+                password: null
             }
         }
     },
     components : {
         'google-button': GoogleButton,
         'facebook-button': FacebookButton,
-        'login-button': LoginButton
+        'login-button': LoginButton,
+        'input-error': InputError,
+        'pop-up': PopUpMessage
     },
+
+    computed: {
+        ...mapGetters('auth', {
+            errorObj: 'getError',
+            user: 'getUser'
+        })
+    },
+
+    methods: {
+        createPopUpMessage(){
+            const context = document.querySelector('.signin__container');
+            let popUpCompoment = `<pop-up :message="${this.error.message}"></pop-up>`
+            context.append(popUpCompoment)
+        }
+    },
+
+    watch: {
+        //load home page when login api call
+        user(val){
+            this.$router.push({name: 'Home'})
+        },
+
+        /**
+         * 
+         */
+        errorObj(val){
+            this.error = val;
+            this.createPopUpMessage()
+        }
+    },
+    
 }
 </script>
 
@@ -126,7 +171,7 @@ export default {
     flex-direction: column;
 
     &__email{
-        margin-bottom: 20px;
+        margin-bottom: 10px;
 
         &--size{
             width: 400px;
@@ -135,6 +180,7 @@ export default {
     }
 
     &__password{
+        margin-bottom: 10px;
 
         &--size{
             width: 400px;
@@ -156,15 +202,21 @@ export default {
 }
 
 .label{
-    margin-top: 30px;
-    color: #808080;
-    align-self: center;
+    margin: 10px 0;
+    // color: #808080;
+    // align-self: center;
 }
 
 .signup__link{
     align-self: flex-end;
     text-decoration: none;
     color: #453D78;
+}
+
+.error{
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #fdd835;
 }
 
 </style>

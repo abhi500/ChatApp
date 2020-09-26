@@ -3,11 +3,11 @@
  * @param {*} res 
  * @param {*} message 
  */
-module.exports.error = (res, message, errors = null) => {
+module.exports.error = (res, message, error = null) => {
     return res.json({
         status: false,
         message: message,
-        errors: errors ? errors : []
+        error: error ? error : {}
     })
 }
 

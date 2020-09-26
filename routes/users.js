@@ -1,13 +1,13 @@
-var express = require('express');
-var router = express();
-var User = require('../models/user');
-var { generateHash, checkPassword } = require('../utils/secure-password');
-var { token } = require('../utils/token-generator');
-var { error, success } = require('../utils/response');
-var { login } = require('../middlewares/auth-middleware');
+const express = require('express');
+const router = express();
+const User = require('../models/user');
+const { generateHash, checkPassword } = require('../utils/secure-password');
+const { token } = require('../utils/token-generator');
+const { error, success } = require('../utils/response');
+const { login, register } = require('../middlewares/auth-middleware');
 
 //register user
-router.post('/register', (req, res, next) => {
+router.post('/register', register(), (req, res, next) => {
     
     let { name, email, password } = req.query;
 
@@ -39,12 +39,6 @@ router.post('/register', (req, res, next) => {
         })
     })
 });
-
-const callback = () => {
-    return (req, res, next) => {
-        res.json(1)
-    }
-}
 
 //login user
 router.post('/login', login(), (req, res) => {

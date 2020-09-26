@@ -1,5 +1,6 @@
 <template>
     <div class="signup__container signup--size">
+        <!-- <pop-up :message="error.message"></pop-up> -->
         <div class="left__container left__container--theme left__container--size"></div>
         <div class="right__container right__container--theme right__container--size">
             <div class="top top--size">
@@ -7,12 +8,26 @@
                 <h1 class="subtitle">Signup to your account</h1>
             </div>
             <div class="form">
-                <label for="name">Name</label>
-                <input type="name" placeholder="Username" class="form__name form__name--size">
-                <label for="email">Email</label>
-                <input type="email" placeholder="Email" class="form__email form__email--size">
-                <label for="password">Password</label>
-                <input type="password" placeholder="Password" class="form__password form__password--size">
+                <label for="name" class="label">Name</label>
+                <input
+                    placeholder="Name"
+                    class="form__name form__name--size" 
+                    v-model="userInfo.name">
+                <input-error v-if="error.name" v-bind:message="error.name"></input-error>
+
+                <label for="email" class="label">Email</label>
+                <input
+                    placeholder="Email"
+                    class="form__email form__email--size" 
+                    v-model="userInfo.email">
+                <input-error v-if="error.email" v-bind:message="error.email"></input-error>
+
+                <label for="password" class="label">Password</label>
+                <input type="password" 
+                    placeholder="Password" 
+                    class="form__password form__password--size" 
+                    v-model="userInfo.password">
+                <input-error v-if="error.password" v-bind:message="error.password"></input-error>
 
                  <div class="form__flex">
                     <input type="radio" id="remember" name="rememberme">
@@ -20,7 +35,7 @@
                     <a href="#" class="forget-password">Forget Password?</a>
                 </div>
 
-                <login-button></login-button>
+                <register-button :user="userInfo"></register-button>
                 <google-button></google-button>
                 <facebook-button></facebook-button>
                 <p class="label">Don't have an accout? <router-link to="/signin" class="signin__link">Signin now</router-link></p>
@@ -31,36 +46,60 @@
 </template>
 
 <script>
-    console.log
-
- 
-
-    FB.login(function(response) {
-        if (response.authResponse) {
-        console.log('Welcome!  Fetching your information.... ');
-        FB.api('/me', function(response) {
-        console.log('Good to see you, ' + response.name + '.');
-        });
-        } else {
-        console.log('User cancelled login or did not fully authorize.');
-        }
-    });
-  };
+   
 </script>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
-
 
 <script>
 
 import GoogleButton from '../components/buttons/GoogleButton.vue';
 import FacebookButton from '../components/buttons/FacebookButton.vue';
-import LoginButton from '../components/buttons/LoginButton.vue';
+import RegisterButton from '../components/buttons/RegisterButton.vue';
+import InputError from '../components/errors/InputError.vue';
+import { mapGetters, mapState } from 'vuex';
+import PopUpMessage from '../components/errors/PopupMessage.vue';
 
 export default {
+    data() {
+        return {
+            userInfo:{
+                name: '',
+                email: '',
+                password: ''
+            },
+            error: {
+                message: null,
+                email: null,
+                password: null
+            }
+        }
+    },
     components : {
         'google-button': GoogleButton,
         'facebook-button': FacebookButton,
-        'login-button': LoginButton
+        'register-button': RegisterButton,
+        'input-error': InputError,
+        'pop-up': PopUpMessage
+    },
+
+    computed: {
+        ...mapGetters('auth', {
+            errorObj: 'getError',
+            user: 'getUser'
+        })
+    },
+
+    watch: {
+        //load home page when login api call
+        user(val){
+            this.$router.push({name: 'Home'})
+        },
+
+        /**
+         * 
+         */
+        errorObj(val){
+            this.error = val;
+        }
     },
 }
 </script>
@@ -132,7 +171,7 @@ export default {
     flex-direction: column;
 
     &__name{
-        margin-bottom: 20px;
+        margin-bottom: 10px;
 
         &--size{
             width: 400px;
@@ -141,7 +180,7 @@ export default {
     }
 
     &__email{
-        margin-bottom: 20px;
+        margin-bottom: 10px;
 
         &--size{
             width: 400px;
@@ -150,6 +189,7 @@ export default {
     }
 
     &__password{
+        margin-bottom: 10px;
 
         &--size{
             width: 400px;
@@ -171,15 +211,19 @@ export default {
 }
 
 .label{
-    margin-top: 30px;
-    color: #808080;
-    align-self: center;
+    margin: 10px 0;
 }
 
 .signin__link{
     align-self: flex-end;
     text-decoration: none;
     color: #453D78;
+}
+
+.error{
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid #fdd835;
 }
 
 </style>

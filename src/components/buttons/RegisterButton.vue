@@ -1,5 +1,5 @@
 <template>
-    <button class="button button--size button--theme" @click="login(user)">SignIn Now</button>
+    <button class="button button--size button--theme" @click="register(user)">SignUp Now</button>
 </template>
 
 <script>
@@ -8,7 +8,7 @@ import { mapState, mapActions, mapGetters } from 'vuex';
 
 
 export default {
-    props: ['user'],
+    props: ['user', 'name'],
 
     computed: {
 
@@ -19,7 +19,7 @@ export default {
     },
 
     methods: mapActions('auth', [
-        'login'
+        'register'
     ]),
 
     created() {

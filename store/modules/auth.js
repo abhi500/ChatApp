@@ -34,10 +34,28 @@ const actions = {
             if(res.status){
                 commit('setUser', res.data.user);
                 commit('setToken',  res.data.token)
-                this.$router.push('/')
+                this.$router.push('/');
             }
             else
-                commit('setError', res.message)
+                commit('setError', { message:res.message, name: res.error.name, email: res.error.email, password: res.error.password})
+        })
+        .catch(err => {
+            commit('setError', err)
+        })
+    },
+
+    register({commit}, user) {
+        login('http://localhost:3000/api/v1/auth/register', user)
+        .then(res => res.data)
+        .then(res => {
+            console.log(res)
+            if(res.status){
+                commit('setUser', res.data.user);
+                commit('setToken',  res.data.token)
+                this.$router.push('/');
+            }
+            else
+                commit('setError', { message:res.message, name: res.error.name, email: res.error.email, password: res.error.password})
         })
         .catch(err => {
             commit('setError', err)
