@@ -9,7 +9,9 @@
                 class="search__input search__input--size">
         </div>
         <ul class="container__contacts container__contacts--size">
-            <li class="container__contact container__contact--size" v-for="(data, index) in 5" :key="index">
+            <li class="container__contact container__contact--size" 
+                v-for="(data, index) in 5" :key="index" 
+                @click="startConversation()">
                 <user></user>
             </li>
         </ul>
@@ -22,8 +24,10 @@
 import User from './User.vue';
 import IconifyIcon from '@iconify/vue';
 import searchOutlined from '@iconify/icons-ant-design/search-outlined';
+import ConversationMixin from '../../mixins/conversation-mixin.js';
 
 export default {
+    mixins: [ConversationMixin],
     components: {
         IconifyIcon,
         'user': User

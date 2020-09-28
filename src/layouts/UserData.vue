@@ -21,7 +21,7 @@
             </div>
         </div>
         <ul class="recent-chats">
-            <li class="recent-chat" v-for="(data, index) in 5" :key="index">
+            <li class="recent-chat" v-for="(data, index) in 5" :key="index" @click="startConversation()">
                 <recent-chat></recent-chat>
             </li> 
         </ul>
@@ -45,9 +45,11 @@ import Contacts from '../components/chat/Contacts.vue';
 import Groups from '../components/chat/Groups.vue';
 import RecentChat from '../components/chat/RecentChat.vue';
 import IconifyIcon from '@iconify/vue';
-import notificationOutlineBadged from '@iconify/icons-clarity/notification-outline-badged';;
+import notificationOutlineBadged from '@iconify/icons-clarity/notification-outline-badged';
+import ConversationMixin from '../mixins/conversation-mixin.js';
 
 export default {
+    mixins: [ConversationMixin],
     components: {
 		IconifyIcon,
         'recent-chat': RecentChat,
@@ -82,7 +84,7 @@ export default {
                 this.active = true;
             else
                 this.active = false;   
-        }
+        },
     },
 
     mounted() {
@@ -112,9 +114,9 @@ export default {
         width: 100%;
     }
 
-    &--theme{
-        // background-color: #E8EAF6;
-    }
+    // &--theme{
+    //     // background-color: #E8EAF6;
+    // }
 }
 
 .user{

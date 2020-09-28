@@ -7,70 +7,40 @@
             <user-data></user-data>
         </div>
         <div class="container__right container__right--theme container__right--size">
-            <chat-section></chat-section>
+            <default-chat-section v-if="enable"></default-chat-section>
+            <chat-section v-else></chat-section>
         </div>
     </div>
 </template>
 
 <script>
 
-import ChatSection from '../layouts/ChatSection.vue';
 import UserData from '../layouts/UserData.vue'
+import DefaultChatSection from '../layouts/DefaultChatSection.vue';
 import io from 'socket.io-client';
 import { EventBus } from '../../event-bus.js';
 
 export default {
     components: {
-        'chat-section': ChatSection,
-        'user-data': UserData
+        'chat-section': () => import('../layouts/ChatSection.vue'),
+        'user-data': UserData,
+        'default-chat-section': DefaultChatSection
     },
 
     data() {
         return {
-            message: null
+            enable: true,
+            message: null,
         }
     },
 
-    created() {
+    mounted() {
 
-        // const socket = io({
-        //     reconnection: true,
-        //     reconnectionAttemps: Infinity,
-        //     reconnectionDelay: 1000,
-        //     reconnectionDelayMax: 5000,
-        //     randomizationFactor: 0.5
-        // },'http://localhost:3000/');
-
-        // socket.on('connect', () => {
-        //     socket.emit('user-id', {
-        //         time: Date.now()}
-        //     )
-        //     console.log('connect')
-        //     this.message = 'connected';
-        // })
-
-        // socket.on('connect_error', () => {
-        //     this.message = 'connect error'
-        //     console.log('connect__error')
-        //     setTimeout(() => {
-        //         socket.connect();
-        //     }, 2000);
-        // });
-
-        // socket.on('disconnect', () => {
-        //     console.log('disconnect')
-        //     console.log('disconnect')
-        //     setTimeout(() => {
-        //         socket.connect();
-        //     }, 500);
-        // });
-
-        // EventBus.$on('message', (message) => {
-        //     socket.emit('chat', {name: message, email: message, password: message})
-        //     console.log(message)
-        // })
+        //open chat-section layout
+        EventBus.$on('start-conversation', () => {
+            this.enable = false;
+        })
     },
-    
 }
 </script>
 
