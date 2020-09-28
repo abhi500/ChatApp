@@ -1,4 +1,4 @@
-const { login, register } = require('../../apis/auth-apis');
+const { login, register } = require('../../apis/auth-api');
 
 //state
 let state = {

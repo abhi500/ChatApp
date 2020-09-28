@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/', userRouter);
-app.use('*', indexRouter);
+app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -38,7 +38,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({
     status: false,
-    message: res.locals.message
+    message: res.locals.message,
+    errors: {}
     // message: 'Route not found'
   })
   // res.render('error');

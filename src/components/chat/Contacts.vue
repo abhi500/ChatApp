@@ -10,9 +10,9 @@
         </div>
         <ul class="container__contacts container__contacts--size">
             <li class="container__contact container__contact--size" 
-                v-for="(data, index) in 15" :key="index" 
+                v-for="user in users" :key="user.id" 
                 @click="startConversation()">
-                <user></user>
+                <user :user="user"></user>
             </li>
         </ul>
         
@@ -28,6 +28,7 @@ import ConversationMixin from '../../mixins/conversation-mixin.js';
 
 export default {
     mixins: [ConversationMixin],
+    props: ['users'],
     components: {
         IconifyIcon,
         'user': User

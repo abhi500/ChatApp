@@ -7,11 +7,12 @@ const { error, success } = require('../utils/response');
  * get all user
  */
 router.get('/users', (req, res) => {
-    User.find({})
+    User.find({}, {name: true, email: true})
     .then(users => {
-        res.json(users)
-    }).catch(err => {
-        res.json(err)
+        success(res, 'Users fetched', users)
+    })
+    .catch(err => {
+        error(res, 'Unable to get users', err)
     })
 });
 

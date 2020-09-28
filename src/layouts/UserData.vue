@@ -31,7 +31,7 @@
             <li class="option" @click="switchOption($event, 1)">Groups</li>
         </ul>
         <div class="contacts" v-if="active">
-            <contacts></contacts>
+            <contacts :users="users"></contacts>
         </div>
         <div class="groups" v-else>
             <groups></groups>
@@ -47,6 +47,7 @@ import RecentChat from '../components/chat/RecentChat.vue';
 import IconifyIcon from '@iconify/vue';
 import notificationOutlineBadged from '@iconify/icons-clarity/notification-outline-badged';
 import ConversationMixin from '../mixins/conversation-mixin.js';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     mixins: [ConversationMixin],
@@ -67,7 +68,17 @@ export default {
         }
     },
 
+    computed: {
+        ...mapGetters('users', {
+            users: 'getUsers'
+        })
+    },
+
     methods: {
+        ...mapActions('users', [
+            'getUsers'
+        ]),
+
         switchOption(event, val){
             // selected element
             let option = event.target;
@@ -85,6 +96,11 @@ export default {
             else
                 this.active = false;   
         },
+    },
+
+    created() {
+        //call users api
+        this.getUsers();
     },
 
     mounted() {

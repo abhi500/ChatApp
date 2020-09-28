@@ -3,8 +3,8 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png" 
             class="user__image user__image--size">
         <div class="user__info">
-            <span class="user__name">Bob</span>
-            <span class="user__email">bob@gmail.com</span>    
+            <span class="user__name">{{ user.name }}</span>
+            <span class="user__email">{{ user.email }}</span>    
         </div>
         <IconifyIcon :icon="icons.moreHorizontalFill" class="icon" />
     </section>
@@ -18,7 +18,8 @@ import moreHorizontalFill from '@iconify/icons-eva/more-horizontal-fill';
 export default {
     components: {
 		IconifyIcon,
-	},
+    },
+    props: ['user'],
 	data() {
 		return {
 			icons: {
