@@ -35,7 +35,7 @@ module.exports.register = () => {
         const {name, email, password } = req.query;
         let errorObj = {};
 
-        if(!name || !name.includes('@gmail.com')){
+        if(!name || name.length < 3){
             if(!name)
                 errorObj['name'] = 'Enter your name';
             else

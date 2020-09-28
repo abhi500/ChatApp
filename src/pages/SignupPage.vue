@@ -1,6 +1,6 @@
 <template>
     <div class="signup__container signup--size">
-        <!-- <pop-up :message="error.message"></pop-up> -->
+        <pop-up :message="error.message"></pop-up>
         <div class="left__container left__container--theme left__container--size"></div>
         <div class="right__container right__container--theme right__container--size">
             <div class="top top--size">
@@ -68,6 +68,7 @@ export default {
             },
             error: {
                 message: null,
+                name: null,
                 email: null,
                 password: null
             }
@@ -98,7 +99,12 @@ export default {
          * 
          */
         errorObj(val){
-            this.error = val;
+            this.error = {
+                message: val.message,
+                name: val.error.name,
+                email: val.error.email,
+                password: val.error.password
+            }
         }
     },
 }

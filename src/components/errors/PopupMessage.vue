@@ -1,5 +1,5 @@
 <template>
-    <span class="message message--theme">{{ message }}</span>
+    <span v-if="!hideSelf" class="message message--theme">{{ message }}</span>
 </template>
 
 <script>
@@ -11,10 +11,14 @@ export default {
         }
     },
 
-    created() {
-        setTimeout(() => {
-            this.$destroy();
-        }, 2000)
+    watch: {
+        //show error message and hide after 2 second
+        message(old, val){
+            this.hideSelf = false;
+            setTimeout(() => {
+                this.hideSelf = true;
+            }, 2000);
+       }
     },
 }
 </script>

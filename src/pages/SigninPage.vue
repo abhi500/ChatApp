@@ -1,5 +1,6 @@
 <template>
     <div class="signin__container signin--size">
+        <pop-up :message="error.message"></pop-up>
         <div class="left__container left__container--theme left__container--size"></div>
         <div class="right__container right__container--theme right__container--size">
             <div class="top top--size">
@@ -82,7 +83,7 @@ export default {
         createPopUpMessage(){
             const context = document.querySelector('.signin__container');
             let popUpCompoment = `<pop-up :message="${this.error.message}"></pop-up>`
-            context.append(popUpCompoment)
+            // context.append(popUpCompoment)
         }
     },
 
@@ -96,7 +97,11 @@ export default {
          * 
          */
         errorObj(val){
-            this.error = val;
+             this.error = {
+                message: val.message,
+                email: val.error.email,
+                password: val.error.password
+            }
             this.createPopUpMessage()
         }
     },

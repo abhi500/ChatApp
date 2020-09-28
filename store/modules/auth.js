@@ -1,4 +1,4 @@
-const { login } = require('../../apis/auth-apis');
+const { login, register } = require('../../apis/auth-apis');
 
 //state
 let state = {
@@ -37,7 +37,7 @@ const actions = {
                 this.$router.push('/');
             }
             else
-                commit('setError', { message:res.message, name: res.error.name, email: res.error.email, password: res.error.password})
+                commit('setError', { message:res.message, error: res.error})
         })
         .catch(err => {
             commit('setError', err)
@@ -45,7 +45,7 @@ const actions = {
     },
 
     register({commit}, user) {
-        login('http://localhost:3000/api/v1/auth/register', user)
+        register('http://localhost:3000/api/v1/auth/register', user)
         .then(res => res.data)
         .then(res => {
             console.log(res)
@@ -55,7 +55,7 @@ const actions = {
                 this.$router.push('/');
             }
             else
-                commit('setError', { message:res.message, name: res.error.name, email: res.error.email, password: res.error.password})
+                commit('setError', { message:res.message, error: res.error})
         })
         .catch(err => {
             commit('setError', err)
