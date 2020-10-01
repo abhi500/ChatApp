@@ -11,7 +11,7 @@
         <ul class="container__contacts container__contacts--size">
             <li class="container__contact container__contact--size" 
                 v-for="(data, index) in 5" :key="index" 
-                @click="startConversation()">
+                @click="startConversation(data)">
                 <user></user>
             </li>
         </ul>

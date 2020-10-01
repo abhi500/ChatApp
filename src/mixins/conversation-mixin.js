@@ -6,8 +6,8 @@ export default {
          /**
          * start conversation with selected user or group
          */
-        startConversation(){
-            EventBus.$emit('start-conversation');
+        startConversation(user){
+            EventBus.$emit('start-conversation', user);
         }
     },
 }

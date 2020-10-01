@@ -6,8 +6,8 @@
             <div class="navbar__left">
                 <img :src="image" class="user__image user__image--size">
                 <div class="user">
-                   <h4 class="user__name">Charley</h4>
-                   <span class="user__email">charley@gmail.com</span>
+                   <h4 class="user__name">{{ user.name }}</h4>
+                   <span class="user__email">{{ user.email }}</span>
                 </div>
             </div>
             <div class="navbar__right">
@@ -48,7 +48,9 @@ export default {
     components: {
 		IconifyIcon,
         'message-area' : MessageArea
-	},
+    },
+    props: ['user'],
+
 	data() {
 		return {
             image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png",

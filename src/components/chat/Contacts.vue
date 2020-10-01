@@ -11,7 +11,7 @@
         <ul class="container__contacts container__contacts--size">
             <li class="container__contact container__contact--size" 
                 v-for="user in users" :key="user.id" 
-                @click="startConversation()">
+                @click="startConversation(user)">
                 <user :user="user"></user>
             </li>
         </ul>

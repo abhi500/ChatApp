@@ -8,7 +8,7 @@
         </div>
         <div class="container__right container__right--theme container__right--size">
             <default-chat-section v-if="enable"></default-chat-section>
-            <chat-section v-else></chat-section>
+            <chat-section v-else :user="user"></chat-section>
         </div>
     </div>
 </template>
@@ -29,6 +29,7 @@ export default {
 
     data() {
         return {
+            user: Object,
             enable: true,
             message: null,
         }
@@ -37,7 +38,8 @@ export default {
     mounted() {
 
         //open chat-section layout
-        EventBus.$on('start-conversation', () => {
+        EventBus.$on('start-conversation', (user) => {
+            this.user = user;
             this.enable = false;
         })
     },

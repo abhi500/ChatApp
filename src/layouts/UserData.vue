@@ -21,7 +21,7 @@
             </div>
         </div>
         <ul class="recent-chats">
-            <li class="recent-chat" v-for="(data, index) in 5" :key="index" @click="startConversation()">
+            <li class="recent-chat" v-for="(data, index) in 5" :key="index" @click="startConversation(data)">
                 <recent-chat></recent-chat>
             </li> 
         </ul>
@@ -70,7 +70,10 @@ export default {
 
     computed: {
         ...mapGetters('users', {
-            users: 'getUsers'
+            users: 'getUsers',
+        }),
+        ...mapGetters('auth', {
+            token: 'getToken'
         })
     },
 
@@ -100,7 +103,7 @@ export default {
 
     created() {
         //call users api
-        this.getUsers();
+        this.getUsers(this.token);
     },
 
     mounted() {

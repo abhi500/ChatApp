@@ -18,8 +18,8 @@ const getters = {
 
 //actions
 const actions = {
-    getUsers: ({commit}) => {
-        users('http://localhost:3000/api/v1/users')
+    getUsers: ({commit}, token) => {
+        users('http://localhost:3000/api/v1/users', token)
         .then(res => res.data)
         .then(res => {
             commit('users', res.data)
