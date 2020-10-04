@@ -3,12 +3,12 @@ const { Schema } = mongoose;
 
 // create user schema
 const messageSchema = new Schema({
-        sender: {
-            id: Number,
+        from_user: {
+            id: String,
             name: String
         },
-        receiver: {
-            id: Number,
+        to_user: {
+            id: String,
             name: String
         },
         message: String,

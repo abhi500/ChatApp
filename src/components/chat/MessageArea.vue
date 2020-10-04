@@ -15,11 +15,14 @@
 import IconifyIcon from '@iconify/vue';
 import addIcon from '@iconify/icons-codicon/add';
 import { EventBus } from '../../../event-bus.js';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     components: {
 		IconifyIcon,
-	},
+    },
+    props: ['to', 'self'],
+    
 	data() {
 		return {
 			icons: {
@@ -29,10 +32,41 @@ export default {
 		};
     },
 
+    created() {
+        //call send method when use click enter button
+    },
+
     methods: {
+        ...mapActions('home', [
+            'postMessage'
+        ]),
+
         send(){
-            EventBus.$emit('message', this.message)
+            if(!this.message)
+                return;
+            var payload = {
+                from_user: {
+                    id: this.self.id,
+                    name: this.self.name
+                },
+                to_user:{
+                    id: this.to._id,
+                    name: this.to.name
+                },
+                message: this.message
+            }
+            this.postMessage(payload);
+            this.message = "";
         }
+    },
+
+    mounted() {
+
+        //send message when user press enter button
+        window.addEventListener('keypress', (e) => {
+            if(e.keyCode == 13)
+                this.send();
+        })
     },
 }
 </script>

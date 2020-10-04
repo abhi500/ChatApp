@@ -11,7 +11,7 @@ let state = {
 const getters = {
     //get user
     getUser: (state) => {
-        return state.user ? state.user : localStorage.getItem('user');
+        return state.user ? state.user : JSON.parse(localStorage.getItem('user'))
     },
 
     //get token
@@ -67,7 +67,8 @@ const actions = {
 const mutations = {
     setUser(state, user){
         state.user = user;
-        localStorage.setItem('user', user)
+        localStorage.setItem('user', JSON.stringify(user)),
+        console.log(user.id)
     },
 
     setToken(state, token){

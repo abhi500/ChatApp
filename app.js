@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
-var bodyParser = require('body-parser')
 
 //db connect
 require('./utils/db-connection');
@@ -18,7 +17,6 @@ var app = express();
 
 app.use(cors()) 
 app.use(logger('dev'));
-app.use(bodyParser.text({type: 'text/plain'}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

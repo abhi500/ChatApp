@@ -4,7 +4,7 @@ const Message = require('./messages');
 
 // create user schema
 const chatsSchema = new Schema({
-        chatarea: {
+        unique_id: {
             type: String,
             required: true,
             trim: true,

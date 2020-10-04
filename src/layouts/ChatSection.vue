@@ -21,18 +21,18 @@
         </nav>
         <ul class="chat-section__chats chat-section__chats--size">
             <li v-for="message in messages" :key="message.id" class="chat-section__chat chat-section__chat--theme">
-                <div v-if="message.id % 2 == 1" class="received-message received-message--theme">
+                <div v-if="message.from_user.id != self.id" class="received-message received-message--theme">
                     <p>{{message.message}}</p>
-                    <span class="time">5:00 AM</span>
+                    <span class="time">{{ ago(message.created_at) }}</span>
                 </div>
                 <div v-else class="sended-message received-message--theme">
                     <p>{{message.message}}</p>
-                    <span class="time">5:00 AM</span>
+                    <span class="time">{{ ago(message.created_at) }}</span>
                 </div>
             </li>
         </ul>
         <div class="chat-section__message-box ">
-            <message-area></message-area>
+            <message-area :to="user" :self="self"></message-area>
         </div>
     </div>
 </template>
@@ -43,6 +43,8 @@ import IconifyIcon from '@iconify/vue';
 import videoFilled from '@iconify/icons-carbon/video-filled';
 import micIcon from '@iconify/icons-bi/mic';
 import MessageArea from '../components/chat/MessageArea.vue';
+import { mapActions, mapGetters } from 'vuex';
+import moment from 'moment'
 
 export default {
     components: {
@@ -57,56 +59,48 @@ export default {
 			icons: {
 				videoFilled,
                 micIcon,
-			},
-            messages: [
-                {
-                    id: 1,
-                    message: 'Abhisheksdf asdf asdfsad f'
-                },
-                {
-                    id: 2,
-                    message: 'Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df  Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df'
-                },
-                {
-                    id: 3,
-                    message: 'Abhisheksdf asdf asdfsad f'
-                },
-                {
-                    id: 4,
-                    message: 'Abhisheksdf asdf asdfsad f'
-                },
-                {
-                    id: 5,
-                    message: 'Abhisheksdf asdf asdfsad f'
-                },
-                {
-                    id: 6,
-                    message: 'Abhisheksdf asdf asdfsad f'
-                },
-                {
-                    id: 7,
-                    message: 'Abhisheksdf asdf asdfsad f'
-                },
-                {
-                    id: 8,
-                    message: 'Abhisheksdf asdf asdfsad f'
-                },
-                {
-                    id: 9,
-                    message: 'Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df  Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df'
-                },
-                {
-                    id: 10,
-                    message: 'Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df  Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df'
-                },
-                {
-                    id: 11,
-                    message: 'Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df  Abhisheksdf asdf asdfsad fas dfas dfasdfasdflasdlfjl;kasdjfl;kasj;kldfjklasdfjk;lasj;ldfjlkasdfjkl;aljsk;df'
-                },
-            ]
+            },
+            time: null
 		};
-	},
-    
+    },
+
+    created() {
+        const query = {
+                from_user_id: this.self.id,
+                to_user_id: this.user._id
+            };
+        this.fetchMessages(query);
+    },
+
+    computed: {
+        ...mapGetters('home',{
+            messages:'getMessages',
+        }),
+
+        ...mapGetters('auth', {
+            self: 'getUser'
+        }),
+    },
+
+    methods: {
+        ...mapActions('home', [
+            'fetchMessages',
+        ]),
+
+        ago(time){
+            return moment(time).fromNow();
+        }
+    },
+
+    watch: {
+        user(){
+            const query = {
+                from_user_id: this.self.id,
+                to_user_id: this.user._id
+            };
+            this.fetchMessages(query);
+        }
+    },
 }
 </script>
 
